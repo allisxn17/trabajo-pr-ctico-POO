@@ -7,7 +7,7 @@ from Juego.SaltoTemporal import SaltoTemporal
 class JuegoGUI:
     def __init__(self, root):
         self.root = root
-        self.root.title("🧠 Juego del Impostor - Psiquiátrico 🕵‍♂")
+        self.root.title("🧠 Juego del Impostor - Psiquiátrico ")
         self.juego = JuegoDetective()
         self.juego.inicializar_juego()
         self.salto_temporal = SaltoTemporal()
