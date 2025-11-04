@@ -1,6 +1,5 @@
 import random
 
-
 class Personaje:
     def __init__(self, nombre):
         self._nombre = nombre
@@ -30,41 +29,41 @@ class Personaje:
 
     def _declarar_impostor(self, pistas, ubicacion):
         declaraciones = [
-            f"Estuve en la {ubicacion} haciendo mis ejercicios de relajación",
-            f"Pasé el día en la {ubicacion} meditando sobre mi recuperación",
-            f"En la {ubicacion} practiqué mis técnicas de control mental",
-            f"Dediqué el día en la {ubicacion} a organizar mis pensamientos"
+            f"Estuve en {ubicacion} haciendo mis ejercicios de relajación",
+            f"Pasé el día en {ubicacion} meditando sobre mi recuperación",
+            f"En {ubicacion} practiqué mis técnicas de control mental",
+            f"Dediqué el día en {ubicacion} a organizar mis pensamientos"
         ]
         if any("labial" in pista.lower() for pista in pistas):
             declaraciones.extend([
-                f"En la {ubicacion} noté que alguien había estado maquillándose",
-                f"Vi algo rojo en la {ubicacion} pero no le presté atención"
+                f"En {ubicacion} noté que alguien había estado maquillándose",
+                f"Vi algo rojo en {ubicacion} pero no le presté atención"
             ])
         if any("reloj" in pista.lower() for pista in pistas):
             declaraciones.extend([
-                f"En la {ubicacion} me fijé en la hora frecuentemente",
-                f"El tiempo pasa lento aquí, lo noté en la {ubicacion}"
+                f"En {ubicacion} me fijé en la hora frecuentemente",
+                f"El tiempo pasa lento aquí, lo noté en {ubicacion}"
             ])
         if any("llave" in pista.lower() for pista in pistas):
             declaraciones.extend([
-                f"En la {ubicacion} pensé en lo importante que son las cerraduras",
-                f"La {ubicacion} me recordó que debemos mantener todo seguro"
+                f"En {ubicacion} pensé en lo importante que son las cerraduras",
+                f"{ubicacion} me recordó que debemos mantener todo seguro"
             ])
         return random.choice(declaraciones)
 
     def _declarar_paciente_normal(self, pistas, ubicacion):
         declaraciones = [
-            f"Estuve en la {ubicacion} viendo la televisión",
-            f"En la {ubicacion} conversé con otros pacientes",
-            f"Pasé el día en la {ubicacion} leyendo revistas",
-            f"En la {ubicacion} ayudé a ordenar algunas cosas",
-            f"Dediqué la tarde en la {ubicacion} a escribir en mi diario",
-            f"En la {ubicacion} participé en actividades grupales"
+            f"Estuve en {ubicacion} viendo la televisión",
+            f"En {ubicacion} conversé con otros pacientes",
+            f"Pasé el día en {ubicacion} leyendo revistas",
+            f"En {ubicacion} ayudé a ordenar algunas cosas",
+            f"Dediqué la tarde en {ubicacion} a escribir en mi diario",
+            f"En {ubicacion} participé en actividades grupales"
         ]
         if any("labial" in pista.lower() for pista in pistas):
             declaraciones.extend([
-                f"En la {ubicacion} noté que había cosas de maquillaje",
-                f"Vi colores llamativos en la {ubicacion} durante el día"
+                f"En {ubicacion} noté que había cosas de maquillaje",
+                f"Vi colores llamativos en {ubicacion} durante el día"
             ])
         return random.choice(declaraciones)
 
@@ -100,3 +99,4 @@ class Personaje:
                     "Noté un olor peculiar en el aire"
                 ])
         return random.choice(respuestas)
+
