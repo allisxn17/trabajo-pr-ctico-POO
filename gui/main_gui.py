@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox, simpledialog
-from juego.juego import JuegoDetective
-from juego.salto_temporal import SaltoTemporal
+from Juego.Juego import JuegoDetective
+from Juego.SaltoTemporal import SaltoTemporal
 
 
 class JuegoGUI:
