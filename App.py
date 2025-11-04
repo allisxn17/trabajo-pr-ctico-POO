@@ -1,4 +1,12 @@
-from gui.main_gui import iniciar_juego
+import tkinter as tk
+from gui.main_gui import JuegoGUI
+
+
+def main():
+    root = tk.Tk()
+    gui = JuegoGUI(root)
+    root.mainloop()
+
 
 if __name__ == "__main__":
-    iniciar_juego()
+    main()
