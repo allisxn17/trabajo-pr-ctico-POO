@@ -1,0 +1,13 @@
+# Librerías necesarias para el proyecto de POO - Detective Psiquiátrico
+
+# Interfaz gráfica
+tk
+
+# Base de datos ligera para persistencia
+tinydb>=4.8.0
+
+# Pruebas unitarias
+unittest2
+
+# Utilidades generales
+random2
