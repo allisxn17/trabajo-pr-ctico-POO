@@ -1,10 +1,78 @@
 import random
+from abc import ABC, abstractmethod
 
-class Personaje:
+class Jugador(ABC):
     def __init__(self, nombre):
         self._nombre = nombre
         self._es_impostor = False
         self._comportamientos_dia = []
+
+    @abstractmethod
+    def get_nombre(self):
+        pass
+
+    @abstractmethod
+    def es_impostor(self):
+        pass
+
+    @abstractmethod
+    def set_impostor(self, valor):
+        pass
+
+    @abstractmethod
+    def agregar_comportamiento(self, comportamiento):
+        pass
+
+    @abstractmethod
+    def get_ultimo_comportamiento(self):
+        pass
+
+    @abstractmethod
+    def declarar_dia(self, pistas_encontradas, ubicacion_investigada):
+        pass
+
+    @abstractmethod
+    def interrogar(self, pistas_encontradas):
+        pass
+
+
+class Detective(Jugador):
+    def __init__(self, nombre):
+        super().__init__(nombre)
+        self._pistas = []
+
+    def get_nombre(self):
+        return self._nombre
+
+    def es_impostor(self):
+        return self._es_impostor
+
+    def set_impostor(self, valor):
+        self._es_impostor = valor
+
+    def agregar_comportamiento(self, comportamiento):
+        self._comportamientos_dia.append(comportamiento)
+
+    def get_ultimo_comportamiento(self):
+        return self._comportamientos_dia[-1] if self._comportamientos_dia else "No hay registro"
+
+    def declarar_dia(self, pistas_encontradas, ubicacion_investigada):
+        # El detective no miente ni simula comportamiento
+        return f"Estoy investigando en {ubicacion_investigada} con las pistas {', '.join(pistas_encontradas) if pistas_encontradas else 'ninguna'}."
+
+    def interrogar(self, pistas_encontradas):
+        return f"Estoy analizando las pistas: {', '.join(pistas_encontradas) if pistas_encontradas else 'sin pistas por ahora'}."
+
+    def agregar_pista(self, pista):
+        self._pistas.append(pista)
+
+    def get_pistas(self):
+        return self._pistas
+
+
+class Paciente(Jugador):
+    def __init__(self, nombre):
+        super().__init__(nombre)
 
     def get_nombre(self):
         return self._nombre
@@ -99,4 +167,10 @@ class Personaje:
                     "Noté un olor peculiar en el aire"
                 ])
         return random.choice(respuestas)
+
+
+def asignar_impostor(pacientes):
+    impostor = random.choice(pacientes)
+    impostor.set_impostor(True)
+    return impostor
 
