@@ -59,7 +59,6 @@ class Detective(Jugador):
         return self._comportamientos_dia[-1] if self._comportamientos_dia else "No hay registro"
 
     def declarar_dia(self, pistas_encontradas, ubicacion_investigada):
-        # El detective no miente ni simula comportamiento
         return f"Estoy investigando en {ubicacion_investigada} con las pistas {', '.join(pistas_encontradas) if pistas_encontradas else 'ninguna'}."
 
     def interrogar(self, pistas_encontradas):
@@ -191,7 +190,7 @@ class Ubicacion:
     def tiene_pistas(self):
         return len(self.pistas_restantes) > 0
 
-    def _str_(self):
+    def __str__(self):  # ✅ estaba mal escrita como _str_
         pistas_restantes = len(self.pistas_restantes)
         return f"{self.nombre} ({pistas_restantes} pista{'s' if pistas_restantes != 1 else ''})"
 
@@ -206,7 +205,6 @@ class JuegoDetective:
         self.impostor_real = None
 
     def inicializar_juego(self):
-        
         nombres = ["Carlos", "Ana", "Miguel", "Laura", "David"]
         random.shuffle(nombres)
         self.personajes = [Paciente(nombre) for nombre in nombres[:3]]
@@ -263,7 +261,7 @@ class SaltoTemporal:
         return True
 
 
-# Interfaz grafica
+# === Interfaz gráfica ===
 
 class JuegoGUI:
     def __init__(self, root):
@@ -442,10 +440,8 @@ class JuegoGUI:
         else:
             messagebox.showinfo("No disponible", "Ya usaste tu poder de regresar en el tiempo.")
 
-
-# Ejecucion
-
+# === Ejecución ===
 if __name__ == "__main__":
     root = tk.Tk()
     gui = JuegoGUI(root)
-    root.mainloop()
+    root.mainloop()  # ✅ corregido el salto de línea
