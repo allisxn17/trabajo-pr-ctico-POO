@@ -1,16 +1,20 @@
-import unittest
+import pytest
 from juego.personaje import Personaje
 
-class TestPersonaje(unittest.TestCase):
-    def test_creacion_personaje(self):
-        p = Personaje("Carlos", "Paciente")
-        self.assertEqual(p.nombre, "Carlos")
-        self.assertEqual(p.rol, "Paciente")
 
-    def test_interaccion(self):
-        p = Personaje("Laura", "Impostor")
-        respuesta = p.hablar()
-        self.assertIsInstance(respuesta, str)
+def test_creacion_personaje():
+    p = Personaje("Ana")
+    assert p.get_nombre() == "Ana"
+    assert not p.es_impostor()
 
-if __name__ == '__main__':
-    unittest.main()
+
+def test_comportamiento():
+    p = Personaje("Carlos")
+    p.agregar_comportamiento("Leyó un libro")
+    assert p.get_ultimo_comportamiento() == "Leyó un libro"
+
+
+def test_impostor_flag():
+    p = Personaje("Laura")
+    p.set_impostor(True)
+    assert p.es_impostor()
