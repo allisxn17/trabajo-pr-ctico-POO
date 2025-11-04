@@ -1,9 +1,10 @@
 import random
-from .personaje import Personaje
-from .ubicacion import Ubicacion
+from .Personaje import Jugador, Paciente, Detective
+from .Ubicacion import Ubicacion
 
 class JuegoDetective:
     def __init__(self):
+        self.detective = Detective("Detective")
         self.personajes = []
         self.ubicaciones = []
         self.dia_actual = 1
@@ -14,7 +15,7 @@ class JuegoDetective:
     def inicializar_juego(self):
         nombres = ["Carlos", "Ana", "Miguel", "Laura", "David"]
         random.shuffle(nombres)
-        self.personajes = [Personaje(nombre) for nombre in nombres[:3]]
+        self.personajes = [Paciente(nombre) for nombre in nombres[:3]]
         self.impostor_real = random.choice(self.personajes)
         self.impostor_real.set_impostor(True)
         self.ubicaciones = [
