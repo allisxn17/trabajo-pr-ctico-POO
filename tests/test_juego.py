@@ -1,20 +1,20 @@
-import unittest
+import pytest
 from juego.juego import JuegoDetective
+from juego.ubicacion import Ubicacion
 
-class TestJuego(unittest.TestCase):
-    def test_inicializacion_juego(self):
-        juego = JuegoDetective()
-        self.assertGreaterEqual(juego.dias_totales, 1)
 
-    def test_pista(self):
-        juego = JuegoDetective()
-        pista = juego.obtener_pista()
-        self.assertIsInstance(pista, str)
+def test_inicializacion_juego():
+    j = JuegoDetective()
+    j.inicializar_juego()
 
-    def test_interrogar(self):
-        juego = JuegoDetective()
-        resultado = juego.interrogar_personaje()
-        self.assertIsInstance(resultado, str)
+    assert len(j.personajes) == 3
+    assert j.impostor_real is not None
+    assert len(j.ubicaciones) == 4
 
-if __name__ == '__main__':
-    unittest.main()
+
+def test_pistas_en_ubicacion():
+    ubicacion = Ubicacion("Baño", ["Pista 1", "Pista 2"])
+    assert ubicacion.tiene_pistas()
+    pista = ubicacion.obtener_pista()
+    assert pista == "Pista 1"
+    assert len(ubicacion.pistas_restantes) == 1
