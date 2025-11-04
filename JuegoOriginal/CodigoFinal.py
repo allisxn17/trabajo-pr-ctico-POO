@@ -1,13 +1,80 @@
 import random
 import tkinter as tk
 from tkinter import messagebox, simpledialog
+from abc import ABC, abstractmethod
 
-
-class Personaje:
-    def _init_(self, nombre):
+class Jugador(ABC):
+    def __init__(self, nombre):
         self._nombre = nombre
         self._es_impostor = False
         self._comportamientos_dia = []
+
+    @abstractmethod
+    def get_nombre(self):
+        pass
+
+    @abstractmethod
+    def es_impostor(self):
+        pass
+
+    @abstractmethod
+    def set_impostor(self, valor):
+        pass
+
+    @abstractmethod
+    def agregar_comportamiento(self, comportamiento):
+        pass
+
+    @abstractmethod
+    def get_ultimo_comportamiento(self):
+        pass
+
+    @abstractmethod
+    def declarar_dia(self, pistas_encontradas, ubicacion_investigada):
+        pass
+
+    @abstractmethod
+    def interrogar(self, pistas_encontradas):
+        pass
+
+
+class Detective(Jugador):
+    def __init__(self, nombre):
+        super().__init__(nombre)
+        self._pistas = []
+
+    def get_nombre(self):
+        return self._nombre
+
+    def es_impostor(self):
+        return self._es_impostor
+
+    def set_impostor(self, valor):
+        self._es_impostor = valor
+
+    def agregar_comportamiento(self, comportamiento):
+        self._comportamientos_dia.append(comportamiento)
+
+    def get_ultimo_comportamiento(self):
+        return self._comportamientos_dia[-1] if self._comportamientos_dia else "No hay registro"
+
+    def declarar_dia(self, pistas_encontradas, ubicacion_investigada):
+        # El detective no miente ni simula comportamiento
+        return f"Estoy investigando en {ubicacion_investigada} con las pistas {', '.join(pistas_encontradas) if pistas_encontradas else 'ninguna'}."
+
+    def interrogar(self, pistas_encontradas):
+        return f"Estoy analizando las pistas: {', '.join(pistas_encontradas) if pistas_encontradas else 'sin pistas por ahora'}."
+
+    def agregar_pista(self, pista):
+        self._pistas.append(pista)
+
+    def get_pistas(self):
+        return self._pistas
+
+
+class Paciente(Jugador):
+    def __init__(self, nombre):
+        super().__init__(nombre)
 
     def get_nombre(self):
         return self._nombre
@@ -104,8 +171,14 @@ class Personaje:
         return random.choice(respuestas)
 
 
+def asignar_impostor(pacientes):
+    impostor = random.choice(pacientes)
+    impostor.set_impostor(True)
+    return impostor
+
+
 class Ubicacion:
-    def _init_(self, nombre, pistas):
+    def __init__(self, nombre, pistas):
         self.nombre = nombre
         self.pistas = pistas
         self.pistas_restantes = pistas.copy()
@@ -124,7 +197,7 @@ class Ubicacion:
 
 
 class JuegoDetective:
-    def _init_(self):
+    def __init__(self):
         self.personajes = []
         self.ubicaciones = []
         self.dia_actual = 1
@@ -133,9 +206,10 @@ class JuegoDetective:
         self.impostor_real = None
 
     def inicializar_juego(self):
+        
         nombres = ["Carlos", "Ana", "Miguel", "Laura", "David"]
         random.shuffle(nombres)
-        self.personajes = [Personaje(nombre) for nombre in nombres[:3]]
+        self.personajes = [Paciente(nombre) for nombre in nombres[:3]]
         self.impostor_real = random.choice(self.personajes)
         self.impostor_real.set_impostor(True)
         self.ubicaciones = [
@@ -163,7 +237,7 @@ class JuegoDetective:
 
 
 class SaltoTemporal:
-    def _init_(self):
+    def __init__(self):
         self._usado = False
         self._estado_guardado = None
 
@@ -192,7 +266,7 @@ class SaltoTemporal:
 # Interfaz grafica
 
 class JuegoGUI:
-    def _init_(self, root):
+    def __init__(self, root):
         self.root = root
         self.root.title("🧠 Juego del Impostor - Psiquiátrico 🕵‍♂")
         self.juego = JuegoDetective()
