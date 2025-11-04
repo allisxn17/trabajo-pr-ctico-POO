@@ -1,47 +1,52 @@
+import random
 from .personaje import Personaje
 from .ubicacion import Ubicacion
 from .salto_temporal import SaltoTemporal
-import random
-
 
 class Juego:
-    def __init__(self, nombres_personajes, nombres_ubicaciones):
+    def __init__(self, nombres_personajes, ubicaciones_pistas):
         self.personajes = [Personaje(nombre) for nombre in nombres_personajes]
-        self.ubicaciones = [Ubicacion(nombre) for nombre in nombres_ubicaciones]
-        self.pistas_encontradas = []
+        self.ubicaciones = [Ubicacion(nombre, pistas) for nombre, pistas in ubicaciones_pistas.items()]
         self.impostor = random.choice(self.personajes)
-        self.impostor.set_impostor(True)
+        self.impostor.asignar_impostor()
+        self.pistas_encontradas = []
+        self.salto_temporal = SaltoTemporal(self)
 
-    def iniciar_dia(self):
+    def mostrar_personajes(self):
+        print("\nPersonajes en el juego:")
         for personaje in self.personajes:
-            ubicacion = random.choice(self.ubicaciones)
-            personaje.agregar_comportamiento(ubicacion.nombre)
-            ubicacion.recibir_personaje(personaje)
+            print(f"- {personaje.nombre}")
 
-    def investigar(self, nombre_ubicacion):
+    def mostrar_ubicaciones(self):
+        print("\nUbicaciones disponibles:")
+        for ubicacion in self.ubicaciones:
+            print(f"- {ubicacion}")
+
+    def investigar_ubicacion(self, nombre_ubicacion):
         ubicacion = next((u for u in self.ubicaciones if u.nombre == nombre_ubicacion), None)
-        if not ubicacion:
-            return f"La ubicación {nombre_ubicacion} no existe."
-        pistas = ubicacion.generar_pistas()
-        self.pistas_encontradas.extend(pistas)
-        return pistas
+        if ubicacion:
+            pista = ubicacion.obtener_pista()
+            if pista:
+                print(f"\nHas encontrado una pista en {nombre_ubicacion}: {pista}")
+                self.pistas_encontradas.append(pista)
+            else:
+                print(f"\nYa no quedan pistas en {nombre_ubicacion}.")
+        else:
+            print(f"\nNo existe la ubicación '{nombre_ubicacion}'.")
 
     def interrogar_personaje(self, nombre_personaje):
-        personaje = next((p for p in self.personajes if p.get_nombre() == nombre_personaje), None)
-        if not personaje:
-            return f"No existe ningún personaje llamado {nombre_personaje}."
-        return personaje.interrogar(self.pistas_encontradas)
+        personaje = next((p for p in self.personajes if p.nombre == nombre_personaje), None)
+        if personaje:
+            personaje.hablar(self.pistas_encontradas)
+        else:
+            print(f"\nNo existe el personaje '{nombre_personaje}'.")
 
-    def aplicar_salto_temporal(self):
-        salto = SaltoTemporal(self)
-        salto.ejecutar()
-        return "El tiempo se ha distorsionado... todo ha cambiado."
+    def realizar_salto_temporal(self):
+        self.salto_temporal.ejecutar()
 
-    def mostrar_estado(self):
-        estado = "\n=== ESTADO ACTUAL ===\n"
-        estado += f"Pistas encontradas: {', '.join(self.pistas_encontradas) if self.pistas_encontradas else 'Ninguna'}\n"
-        estado += "Personajes:\n"
-        for p in self.personajes:
-            tipo = "IMPOSTOR" if p.es_impostor() else "Normal"
-            estado += f" - {p.get_nombre()} ({tipo}) | Último comportamiento: {p.get_ultimo_comportamiento()}\n"
-        return estado
+    def verificar_estado(self):
+        print("\n--- Estado del juego ---")
+        print(f"Pistas encontradas: {len(self.pistas_encontradas)}")
+        for ubicacion in self.ubicaciones:
+            print(ubicacion)
+
