@@ -190,7 +190,7 @@ class Ubicacion:
     def tiene_pistas(self):
         return len(self.pistas_restantes) > 0
 
-    def __str__(self):  # ✅ estaba mal escrita como _str_
+    def __str__(self):  
         pistas_restantes = len(self.pistas_restantes)
         return f"{self.nombre} ({pistas_restantes} pista{'s' if pistas_restantes != 1 else ''})"
 
@@ -444,4 +444,4 @@ class JuegoGUI:
 if __name__ == "__main__":
     root = tk.Tk()
     gui = JuegoGUI(root)
-    root.mainloop()  # ✅ corregido el salto de línea
+    root.mainloop() 
