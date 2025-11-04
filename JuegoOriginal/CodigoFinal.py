@@ -2,8 +2,9 @@ import random
 import tkinter as tk
 from tkinter import messagebox, simpledialog
 
+
 class Personaje:
-    def __init__(self, nombre):
+    def _init_(self, nombre):
         self._nombre = nombre
         self._es_impostor = False
         self._comportamientos_dia = []
@@ -28,43 +29,44 @@ class Personaje:
             return self._declarar_impostor(pistas_encontradas, ubicacion_investigada)
         else:
             return self._declarar_paciente_normal(pistas_encontradas, ubicacion_investigada)
+
     def _declarar_impostor(self, pistas, ubicacion):
         declaraciones = [
-            f"Estuve en la {ubicacion} haciendo mis ejercicios de relajación",
-            f"Pasé el día en la {ubicacion} meditando sobre mi recuperación",
-            f"En la {ubicacion} practiqué mis técnicas de control mental",
-            f"Dediqué el día en la {ubicacion} a organizar mis pensamientos"
+            f"Estuve en {ubicacion} haciendo mis ejercicios de relajación",
+            f"Pasé el día en {ubicacion} meditando sobre mi recuperación",
+            f"En {ubicacion} practiqué mis técnicas de control mental",
+            f"Dediqué el día en {ubicacion} a organizar mis pensamientos"
         ]
         if any("labial" in pista.lower() for pista in pistas):
             declaraciones.extend([
-                f"En la {ubicacion} noté que alguien había estado maquillándose",
-                f"Vi algo rojo en la {ubicacion} pero no le presté atención"
+                f"En {ubicacion} noté que alguien había estado maquillándose",
+                f"Vi algo rojo en {ubicacion} pero no le presté atención"
             ])
         if any("reloj" in pista.lower() for pista in pistas):
             declaraciones.extend([
-                f"En la {ubicacion} me fijé en la hora frecuentemente",
-                f"El tiempo pasa lento aquí, lo noté en la {ubicacion}"
+                f"En {ubicacion} me fijé en la hora frecuentemente",
+                f"El tiempo pasa lento aquí, lo noté en {ubicacion}"
             ])
         if any("llave" in pista.lower() for pista in pistas):
             declaraciones.extend([
-                f"En la {ubicacion} pensé en lo importante que son las cerraduras",
-                f"La {ubicacion} me recordó que debemos mantener todo seguro"
+                f"En {ubicacion} pensé en lo importante que son las cerraduras",
+                f"{ubicacion} me recordó que debemos mantener todo seguro"
             ])
         return random.choice(declaraciones)
 
     def _declarar_paciente_normal(self, pistas, ubicacion):
         declaraciones = [
-            f"Estuve en la {ubicacion} viendo la televisión",
-            f"En la {ubicacion} conversé con otros pacientes",
-            f"Pasé el día en la {ubicacion} leyendo revistas",
-            f"En la {ubicacion} ayudé a ordenar algunas cosas",
-            f"Dediqué la tarde en la {ubicacion} a escribir en mi diario",
-            f"En la {ubicacion} participé en actividades grupales"
+            f"Estuve en {ubicacion} viendo la televisión",
+            f"En {ubicacion} conversé con otros pacientes",
+            f"Pasé el día en {ubicacion} leyendo revistas",
+            f"En {ubicacion} ayudé a ordenar algunas cosas",
+            f"Dediqué la tarde en {ubicacion} a escribir en mi diario",
+            f"En {ubicacion} participé en actividades grupales"
         ]
         if any("labial" in pista.lower() for pista in pistas):
             declaraciones.extend([
-                f"En la {ubicacion} noté que había cosas de maquillaje",
-                f"Vi colores llamativos en la {ubicacion} durante el día"
+                f"En {ubicacion} noté que había cosas de maquillaje",
+                f"Vi colores llamativos en {ubicacion} durante el día"
             ])
         return random.choice(declaraciones)
 
@@ -101,8 +103,9 @@ class Personaje:
                 ])
         return random.choice(respuestas)
 
+
 class Ubicacion:
-    def __init__(self, nombre, pistas):
+    def _init_(self, nombre, pistas):
         self.nombre = nombre
         self.pistas = pistas
         self.pistas_restantes = pistas.copy()
@@ -115,12 +118,13 @@ class Ubicacion:
     def tiene_pistas(self):
         return len(self.pistas_restantes) > 0
 
-    def __str__(self):
+    def _str_(self):
         pistas_restantes = len(self.pistas_restantes)
         return f"{self.nombre} ({pistas_restantes} pista{'s' if pistas_restantes != 1 else ''})"
 
+
 class JuegoDetective:
-    def __init__(self):
+    def _init_(self):
         self.personajes = []
         self.ubicaciones = []
         self.dia_actual = 1
@@ -156,8 +160,10 @@ class JuegoDetective:
                 "Ves llaves oxidadas de lugares desconocidos"
             ])
         ]
+
+
 class SaltoTemporal:
-    def __init__(self):
+    def _init_(self):
         self._usado = False
         self._estado_guardado = None
 
@@ -182,19 +188,19 @@ class SaltoTemporal:
         self._usado = True
         return True
 
-# ======================= INTERFAZ GRÁFICA =======================
+
+# Interfaz grafica
 
 class JuegoGUI:
-    def __init__(self, root):
+    def _init_(self, root):
         self.root = root
-        self.root.title("🧠 Juego del Impostor - Psiquiátrico 🕵️‍♂️")
+        self.root.title("🧠 Juego del Impostor - Psiquiátrico 🕵‍♂")
         self.juego = JuegoDetective()
         self.juego.inicializar_juego()
         self.salto_temporal = SaltoTemporal()
         self.crear_interfaz()
         self.investigado_hoy = False
         self.interrogado_hoy = False
-
 
     def crear_interfaz(self):
         self.texto = tk.Text(self.root, width=80, height=25, wrap="word", bg="#f9f9f9")
@@ -206,7 +212,7 @@ class JuegoGUI:
         self.boton_interrogar = tk.Button(self.root, text="❓ Interrogar", command=self.interrogar, state="disabled")
         self.boton_interrogar.pack(side="left", padx=10)
 
-        self.boton_siguiente = tk.Button(self.root, text="⏭️ Siguiente Día", command=self.siguiente_dia,
+        self.boton_siguiente = tk.Button(self.root, text="⏭ Siguiente Día", command=self.siguiente_dia,
                                          state="disabled")
         self.boton_siguiente.pack(side="left", padx=10)
 
@@ -221,7 +227,7 @@ class JuegoGUI:
         self.mostrar_estado_dia()
 
     def mostrar_estado_dia(self):
-        self.texto.insert(tk.END, f"\n🗓️ DÍA {self.juego.dia_actual}\n{'=' * 40}\n")
+        self.texto.insert(tk.END, f"\n🗓 DÍA {self.juego.dia_actual}\n{'=' * 40}\n")
         self.boton_investigar.config(state="normal")
         self.boton_interrogar.config(state="disabled")
         self.boton_siguiente.config(state="disabled")
@@ -230,26 +236,43 @@ class JuegoGUI:
         self.salto_temporal.guardar_estado(self.juego)
 
     def investigar(self):
-        ubicaciones = [u for u in self.juego.ubicaciones if u.tiene_pistas()]
-        if not ubicaciones:
-            messagebox.showinfo("Sin pistas", "No hay más ubicaciones para investigar.")
-            return
-        nombres = [str(u) for u in ubicaciones]
-        eleccion = simpledialog.askinteger("Investigar", f"Elige una ubicación:\n" + "\n".join(
-            [f"{i + 1}. {n}" for i, n in enumerate(nombres)]))
-        if eleccion is None or eleccion < 1 or eleccion > len(ubicaciones):
-            return
-        ubicacion = ubicaciones[eleccion - 1]
-        pista = ubicacion.obtener_pista()
-        if pista:
-            self.texto.insert(tk.END, f"\n🎯 {pista}\n")
-            self.juego.pistas_encontradas.append(pista)
-        else:
-            self.texto.insert(tk.END, "\nNo encontraste nada nuevo aquí.\n")
-        self.declaraciones(ubicacion.nombre)
-        self.investigado_hoy = True
-        self.boton_investigar.config(state="disabled")
-        self.boton_interrogar.config(state="normal")
+        try:
+            ubicaciones = [u for u in self.juego.ubicaciones if u.tiene_pistas()]
+            if not ubicaciones:
+                raise ValueError("No quedan ubicaciones con pistas.")
+
+            nombres = [str(u) for u in ubicaciones]
+            eleccion = simpledialog.askinteger(
+                "Investigar",
+                "Elige una ubicación:\n" + "\n".join([f"{i + 1}. {n}" for i, n in enumerate(nombres)])
+            )
+
+            if eleccion is None:
+                raise TypeError("No seleccionaste ninguna opción.")
+
+            if eleccion < 1 or eleccion > len(ubicaciones):
+                raise IndexError("Selección fuera del rango permitido.")
+
+            ubicacion = ubicaciones[eleccion - 1]
+            pista = ubicacion.obtener_pista()
+
+            if pista:
+                self.texto.insert(tk.END, f"\n🎯 {pista}\n")
+                self.juego.pistas_encontradas.append(pista)
+            else:
+                self.texto.insert(tk.END, "\nNo encontraste nada nuevo aquí.\n")
+
+            self.declaraciones(ubicacion.nombre)
+            self.investigado_hoy = True
+            self.boton_investigar.config(state="disabled")
+            self.boton_interrogar.config(state="normal")
+
+        except ValueError as e:
+            messagebox.showinfo("Sin pistas", str(e))
+        except (TypeError, IndexError) as e:
+            messagebox.showwarning("Selección inválida", str(e))
+        except Exception as e:
+            messagebox.showerror("Error inesperado", f"Ocurrió un error: {e}")
 
     def declaraciones(self, ubicacion_nombre):
         self.texto.insert(tk.END, "\n📝 DECLARACIONES DEL DÍA:\n")
@@ -259,23 +282,38 @@ class JuegoGUI:
             self.texto.insert(tk.END, f"- {p.get_nombre()}: {declaracion}\n")
 
     def interrogar(self):
-        if not self.investigado_hoy:
-            messagebox.showwarning("Acción no permitida", "Primero debes investigar una ubicación.")
-            return
+        try:
+            if not self.investigado_hoy:
+                raise PermissionError("Debes investigar antes de interrogar.")
 
-        nombres = [p.get_nombre() for p in self.juego.personajes]
-        eleccion = simpledialog.askinteger("Interrogatorio", f"¿A quién deseas interrogar?\n" + "\n".join(
-            [f"{i + 1}. {n}" for i, n in enumerate(nombres)]) + "\n4. No interrogar a nadie")
-        if eleccion in [1, 2, 3]:
-            personaje = self.juego.personajes[eleccion - 1]
-            respuesta = personaje.interrogar(self.juego.pistas_encontradas)
-            self.texto.insert(tk.END, f"\n❓ {personaje.get_nombre()}: \"{respuesta}\"\n")
-        else:
-            self.texto.insert(tk.END, "\nNo interrogarás a nadie hoy.\n")
+            nombres = [p.get_nombre() for p in self.juego.personajes]
+            eleccion = simpledialog.askinteger(
+                "Interrogatorio",
+                "¿A quién deseas interrogar?\n" + "\n".join(
+                    [f"{i + 1}. {n}" for i, n in enumerate(nombres)]
+                ) + "\n4. No interrogar a nadie"
+            )
 
-        self.interrogado_hoy = True
-        self.boton_interrogar.config(state="disabled")
-        self.boton_siguiente.config(state="normal")
+            if eleccion is None:
+                raise TypeError("No seleccionaste ninguna opción.")
+
+            if eleccion in [1, 2, 3]:
+                personaje = self.juego.personajes[eleccion - 1]
+                respuesta = personaje.interrogar(self.juego.pistas_encontradas)
+                self.texto.insert(tk.END, f"\n❓ {personaje.get_nombre()}: \"{respuesta}\"\n")
+            else:
+                self.texto.insert(tk.END, "\nNo interrogarás a nadie hoy.\n")
+
+            self.interrogado_hoy = True
+            self.boton_interrogar.config(state="disabled")
+            self.boton_siguiente.config(state="normal")
+
+        except PermissionError as e:
+            messagebox.showwarning("Acción no permitida", str(e))
+        except TypeError as e:
+            messagebox.showwarning("Selección inválida", str(e))
+        except Exception as e:
+            messagebox.showerror("Error inesperado", f"Ocurrió un error: {e}")
 
     def siguiente_dia(self):
         if not self.interrogado_hoy:
@@ -290,36 +328,50 @@ class JuegoGUI:
             self.mostrar_estado_dia()
 
     def fase_acusacion(self):
-        self.texto.insert(tk.END, "\n⏰ FASE FINAL - ACUSACIÓN\n")
-        self.texto.insert(tk.END, "\n📊 Pistas encontradas:\n")
-        for i, pista in enumerate(self.juego.pistas_encontradas, 1):
-            self.texto.insert(tk.END, f"{i}. {pista}\n")
-        nombres = [p.get_nombre() for p in self.juego.personajes]
-        eleccion = simpledialog.askinteger("Acusación", "¿Quién es el impostor?\n" + "\n".join(
-            [f"{i + 1}. {n}" for i, n in enumerate(nombres)]))
-        if eleccion and 1 <= eleccion <= len(self.juego.personajes):
+        try:
+            self.texto.insert(tk.END, "\n⏰ FASE FINAL - ACUSACIÓN\n")
+            self.texto.insert(tk.END, "\n📊 Pistas encontradas:\n")
+
+            for i, pista in enumerate(self.juego.pistas_encontradas, 1):
+                self.texto.insert(tk.END, f"{i}. {pista}\n")
+
+            nombres = [p.get_nombre() for p in self.juego.personajes]
+            eleccion = simpledialog.askinteger(
+                "Acusación",
+                "¿Quién es el impostor?\n" + "\n".join([f"{i + 1}. {n}" for i, n in enumerate(nombres)])
+            )
+
+            if eleccion is None:
+                raise TypeError("No seleccionaste ninguna opción.")
+            if eleccion < 1 or eleccion > len(self.juego.personajes):
+                raise IndexError("Selección fuera del rango permitido.")
+
             elegido = self.juego.personajes[eleccion - 1]
             if elegido.es_impostor():
                 messagebox.showinfo("🎉 ¡Correcto!", f"{elegido.get_nombre()} era el impostor.")
             else:
                 messagebox.showerror("💀 Incorrecto",
                                      f"{elegido.get_nombre()} era inocente.\nEl impostor era {self.juego.impostor_real.get_nombre()}.")
-        else:
-            messagebox.showwarning("Acusación inválida", "No elegiste correctamente.")
-        self.root.destroy()
-        
+
+            self.root.destroy()
+
+        except (TypeError, IndexError) as e:
+            messagebox.showwarning("Selección inválida", str(e))
+        except Exception as e:
+            messagebox.showerror("Error inesperado", f"Ocurrió un error: {e}")
+
     def regresar_tiempo(self):
-      if self.salto_temporal.regresar_en_el_tiempo(self.juego):
-        self.texto.insert(tk.END, "\n⏳ ¡Has regresado en el tiempo! El día vuelve a su estado anterior.\n")
-        self.mostrar_estado_dia()
-        self.boton_tiempo.config(state="disabled")
-      else:
-        messagebox.showinfo("No disponible", "Ya usaste tu poder de regresar en el tiempo.")
+        if self.salto_temporal.regresar_en_el_tiempo(self.juego):
+            self.texto.insert(tk.END, "\n⏳ ¡Has regresado en el tiempo! El día vuelve a su estado anterior.\n")
+            self.mostrar_estado_dia()
+            self.boton_tiempo.config(state="disabled")
+        else:
+            messagebox.showinfo("No disponible", "Ya usaste tu poder de regresar en el tiempo.")
 
 
-# ======================= EJECUCIÓN =======================
+# Ejecucion
+
 if __name__ == "__main__":
     root = tk.Tk()
     gui = JuegoGUI(root)
     root.mainloop()
-
